@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "rss-crons"
   gem.homepage = "http://github.com/suruja/rss-crons"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary     = %q{Simple RSS feed fetcher providing entry document creation}
+  gem.description = %q{This gem fetches RSS feed and allow new feed entry document creations.}
   gem.email = "sebstp@gmail.com"
   gem.authors = ["Sebastien Azimi"]
   # dependencies defined in Gemfile
