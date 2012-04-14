@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "rss-feed"
-  s.version = "0.7.0"
+  s.version = "0.8.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sebastien Azimi"]
@@ -27,6 +27,8 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/rss-feed.rb",
+    "lib/rss-feed/railtie.rb",
+    "lib/tasks/rss-feed.rb",
     "rss-feed.gemspec",
     "spec/app/models/newspaper.rb",
     "spec/rss-feed_spec.rb",

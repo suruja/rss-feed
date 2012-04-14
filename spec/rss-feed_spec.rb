@@ -7,7 +7,7 @@ describe Rss::Feed do
   end
 
   let(:feed_url) do
-    "http://www.groupe-alpha.com/fr/toute-actu/depeches-afp.html?feed=rss"
+    "http://www.feedforall.com/sample.xml"
   end
 
   before do

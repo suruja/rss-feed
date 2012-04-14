@@ -1,4 +1,5 @@
 require "feedzirra"
+require "rss-feed/railtie" if defined?(Rails)
 
 module Rss
   module Feed
@@ -27,9 +28,10 @@ module Rss
       end
 
       def update_from_feed
+        get_feed
         feed_entries.each do |entry|
           entry_attributes = entry.as_json.inject({}) do |mem, (k, v)|
-            mem[k.to_sym] = v.sanitize; mem
+            mem[k.to_sym] = v.to_a.collect{ |sv| sv.sanitize }; mem
           end
           self.find_or_create_by entry_attributes
         end
