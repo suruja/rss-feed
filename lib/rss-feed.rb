@@ -24,9 +24,9 @@ module Rss
 
       def update_from_feed
         feed_entries.each do |entry|
-          entry.sanitize!
-          entry_attributes = entry.to_a.inject({}) do |memo, (key, value)|
-            memo[key.to_sym] = value; memo
+          entry_attributes = {}
+          entry.each do |key, value|
+            entry_attributes[key] = value.sanitize
           end
           self.find_or_create_by entry_attributes
         end
