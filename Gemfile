@@ -14,4 +14,11 @@ group :development do
   gem "jeweler", "~> 1.8.3"
   gem "simplecov", ">= 0"
   gem "guard"
+  gem "guard-rspec"
+  gem "pry"
+end
+
+group :test do
+  gem "mongoid"
+  gem "bson_ext"
 end
