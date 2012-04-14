@@ -23,7 +23,7 @@ module Rss
 
       def get_feed
         Feedzirra::Feed.fetch_and_parse(@feed_url).tap do |feed|
-          @feed = feed != 0 ? feed : []
+          @feed = feed != 0 ? feed : nil
         end
       end
 
