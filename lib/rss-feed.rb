@@ -12,8 +12,12 @@ module Rss
         @feed ? @feed.entries : []
       end
 
-      def get_feed_from(feed_url)
-        Feedzirra::Feed.fetch_and_parse(feed_url).tap do |feed|
+      def subscribes_to(feed_url)
+        @feed_url = feed_url
+      end
+
+      def get_feed
+        Feedzirra::Feed.fetch_and_parse(@feed_url).tap do |feed|
           @feed = feed != 0 ? feed : []
         end
       end
