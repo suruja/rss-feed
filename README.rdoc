@@ -1,9 +1,60 @@
 = RSS Feed
 
-Fetch RSS feeds, collect entries and feed your document database.
+== Synopsis
+
+Fetch RSS feeds, collect entries using Feedzirra gem and feed your database.
+
+== Installation
+
+  gem install rss-feed
+
+Or put in your +Gemfile+:
+
+  gem "rss-feed"
+
+Then (obviously) type +bundle+ in your favorite command line interface.
+
+You may encounter some issue when installing (I did). Some dependencies must be satisfied. On Ubuntu, the dependencies can be satisfied by installing the following packages:
+
+  sudo apt-get install libcurl3 libcurl3-gnutls libcurl4-openssl-dev
+
+Please visit for extra information: https://github.com/taf2/curb
+
+== Usage
+
+In your model:
+
+  class Article
+    include Mongoid::Document
+    include Rss::Feed
+
+    # Add this line to set which RSS feed this model must subscribe to
+    subscribes_to "https://news.google.fr/news/feeds?output=rss"
+  end
+
+Your model get thus some methods:
+
+  # Get subscribed feed url
+  Article.feed_url # => "https://news.google.fr/news/feeds?output=rss"
+
+  # Get already loaded feed entries
+  Article.feed_entries # => [] # because the feed has not been loaded
+
+  # Load feed from feed_url
+  Article.get_feed
+  Article.feed_entries # => the collection of the feed entries
+
+  # (Re)load and store the feed entries as model documents
+  Article.update_from_feed
+
+== Rake task
+
+A Rake task has been implemented to enable you automatically get new feed entries for every models that have subscribed to an RSS feed (i.e. +Model.subscribes_to+ is present in your involved models). Simply do:
+
+  rake rss:feed:update
 
 == Contributing to RSS Feed
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
 * Fork the project.
