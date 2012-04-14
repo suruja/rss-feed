@@ -1,19 +1,28 @@
 require "feedzirra"
 
 module Rss
-  module Crons
-    def self.get_feed_from(feed_url)
-      @feed = Feedzirra::Feed.fetch_and_parse(feed_url)
+  module Feed
+
+    def self.included(base)
+      base.extend(ClassMethods)
     end
 
-    def self.update_from_feed
-      @feed.new_entries.tap do |feed_new_entries|
-        record = self.new
-        feed_new_entries.each do |entry|
-          entry.to_hash.each do |key, value|
-            self[key.to_sym] = value.sanitize
+    module ClassMethods
+      def feed_entries
+        @feed ? @feed.entries : []
+      end
+
+      def get_feed_from(feed_url)
+        @feed = Feedzirra::Feed.fetch_and_parse(feed_url)
+      end
+
+      def update_from_feed
+        feed_entries.each do |entry|
+          entry.sanitize!
+          entry_attributes = entry.to_a.inject({}) do |memo, (key, value)|
+            memo[key.to_sym] = value; memo
           end
-          record.save
+          self.find_or_create_by entry_attributes
         end
       end
     end
