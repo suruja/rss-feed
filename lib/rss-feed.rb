@@ -13,7 +13,9 @@ module Rss
       end
 
       def get_feed_from(feed_url)
-        @feed = Feedzirra::Feed.fetch_and_parse(feed_url)
+        Feedzirra::Feed.fetch_and_parse(feed_url).tap do |feed|
+          @feed = feed != 0 ? feed : []
+        end
       end
 
       def update_from_feed
