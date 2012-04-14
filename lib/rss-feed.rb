@@ -16,6 +16,10 @@ module Rss
         @feed_url = feed_url
       end
 
+      def feed_url
+        @feed
+      end
+
       def get_feed
         Feedzirra::Feed.fetch_and_parse(@feed_url).tap do |feed|
           @feed = feed != 0 ? feed : []
@@ -24,9 +28,8 @@ module Rss
 
       def update_from_feed
         feed_entries.each do |entry|
-          entry_attributes = {}
-          entry.each do |key, value|
-            entry_attributes[key] = value.sanitize
+          entry_attributes = entry.as_json.inject({}) do |mem, (k, v)|
+            mem[k.to_sym] = v.sanitize; mem
           end
           self.find_or_create_by entry_attributes
         end
