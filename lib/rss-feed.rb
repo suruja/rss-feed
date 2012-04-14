@@ -18,7 +18,7 @@ module Rss
       end
 
       def feed_url
-        @feed
+        @feed_url
       end
 
       def get_feed
@@ -30,8 +30,9 @@ module Rss
       def update_from_feed
         get_feed
         feed_entries.each do |entry|
-          entry_attributes = entry.as_json.inject({}) do |mem, (k, v)|
-            mem[k.to_sym] = v.to_a.collect{ |sv| sv.sanitize }; mem
+          entry.sanitize!
+          entry_attributes = entry.as_json.inject({}) do |mem, (key, value)|
+            mem[key.to_sym] = value; mem
           end
           self.find_or_create_by entry_attributes
         end
